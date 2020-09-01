@@ -36,11 +36,15 @@ public class ClusterMonitor implements Runnable {
 		
 		//in real production, this configurations is read from file
 		String connectString = "localhost:2181"; 		
+		System.out.println("Cluster Monitor connecting to zookeeper server: " + connectString + "...");
 		zk  = new ZooKeeper(connectString, 2000, null);
+		System.out.println("Connected Successfully");
 		
 		if(zk.exists(clusterRoot, false) == null) {
 			zk.create(clusterRoot, "ClusterMonitor".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 		}
+		
+		System.out.println("Starts Monitoring cluster: " + this.clusterRoot);
 		
 		childrenWatcher = new Watcher() {
 			
@@ -50,7 +54,7 @@ public class ClusterMonitor implements Runnable {
 				if(event.getType() == Watcher.Event.EventType.NodeChildrenChanged) {
 					try {
 						List<String> children = zk.getChildren(clusterRoot, this);
-						System.out.println("Members: " + children);
+						System.out.println("Membership Changed, Current Members: " + children);
 					} catch (KeeperException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -64,7 +68,7 @@ public class ClusterMonitor implements Runnable {
 		};
 		
 		List<String> children = zk.getChildren(clusterRoot, childrenWatcher);
-		System.out.println("Members: " + children);
+		System.out.println("Initial Members: " + children);
 
 	}
 	

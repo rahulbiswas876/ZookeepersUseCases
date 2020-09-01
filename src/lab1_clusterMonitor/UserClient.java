@@ -14,7 +14,9 @@ public class UserClient {
 			Scanner scn = new Scanner(System.in); 
 			
 			InetAddress ip = InetAddress.getByName("localhost"); 
-			Socket client = new Socket(ip, 2549);
+			System.out.println("Client connecting to server: " + ip + ":" + args[0]);
+			Socket client = new Socket(ip, Integer.valueOf(args[0]));
+			System.out.println("Connected Successfully");
 			
 			DataInputStream dis = new DataInputStream(client.getInputStream()); 
             DataOutputStream dos = new DataOutputStream(client.getOutputStream()); 

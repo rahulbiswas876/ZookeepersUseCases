@@ -17,18 +17,19 @@ public class ProductionServer {
 	private ServerSocket server = null;
 	private DataInputStream in = null;
 	private String clusterName = null;
+	private String nodeId = null;
 	private ZooKeeper zk = null;
 	
 	public ProductionServer(int port, String clusterName) throws IOException {
 		try {
 			registerToClusterManagement(clusterName);
 			server = new ServerSocket(port);
-			System.out.println("Server Started");
+			System.out.println("Production Server Started: " + nodeId);
 			System.out.println("Waiting for a client ..."); 
 			
 			while(true) {
 				socket = server.accept();
-				System.out.println("Client accepted"); 
+				System.out.println("Client Connected"); 
 				
 				new ClientHandler(socket).start();
 		
@@ -50,9 +51,11 @@ public class ProductionServer {
 		
 		zk = new ZooKeeper(connectString, 2000, null);
 		
-		String nodeId = ManagementFactory.getRuntimeMXBean().getName();
+		this.nodeId = ManagementFactory.getRuntimeMXBean().getName();
 		
 		zk.create("/" + this.clusterName + "/" + nodeId, nodeId.getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+		
+		System.out.println("Production Server ZK daemon registered with cluster monitor at: " + "/" + this.clusterName + "/" + nodeId);
 	}
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
