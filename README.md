@@ -10,5 +10,8 @@ In this project using Zookeeper APIs, I implemented  various Common Distributed 
  - The aim of Cluster monitoring is to detect the failure of the production servers in real time, and accordingly notify the administrator.
  - Developed a minimalistic distributed cluster monitor model  using the ***ephemeral znode*** concept of ZooKeeper.
  - As a Demo, Production Server(ProductionServer.class) provides a service of  ***greeting msg : Welcome [Client Given Name]***. When any of the production server fails, instances of clusterMonitors (ClusterMonitor.class) get notified.
+ 
+ ![Architecture Image](https://github.com/rahulbiswas876/ZookeepersUseCases/blob/master/others/cluster_monitor.png)
+ ![](https://github.com/rahulbiswas876/ZookeepersUseCases/blob/master/others/cluster_monitor.gif)
 
 #### Leader election :
