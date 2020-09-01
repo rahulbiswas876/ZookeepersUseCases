@@ -13,4 +13,4 @@ In this project using Zookeeper APIs, I implemented  various Common Distributed 
  ![](https://github.com/rahulbiswas876/ZookeepersUseCases/blob/master/others/cluster_monitor.gif)
  *Screencast Demo*
 
-#### Leader election :
+
